@@ -75,6 +75,7 @@
       <DependentUpon>TerminalWindowControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Utils\ChatTurboItem.cs" />
+    <Compile Include="Snippets\CompletionSnippet.cs" />
     <Compile Include="Utils\Constants.cs" />
     <Compile Include="Utils\HighlightingDefinitionConverter.cs" />
     <Compile Include="Utils\TextFormat.cs" />
@@ -97,6 +98,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="VisualChatGptStudioSnippets.pkgdef">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
     <Resource Include="Resources\chatGPT.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
@@ -128,6 +133,22 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <None Include="README.md" />
+    <Content Include="Snippets\CSharp\VisualChatGptStudio\CompletionSnippet.snippet">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="Snippets\Basic\VisualChatGptStudio\CompletionSnippet.snippet">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="Snippets\HTML\VisualChatGptStudio\CompletionSnippet.snippet">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="Snippets\JavaScript\VisualChatGptStudio\CompletionSnippet.snippet">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
     <None Include="source.extension.vsixmanifest">
       <SubType>Designer</SubType>
       <Generator>VsixManifestGenerator</Generator>

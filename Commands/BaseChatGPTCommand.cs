@@ -27,11 +27,11 @@ namespace JeffPires.VisualChatGPTStudio.Commands
         private int positionStart;
         private int positionEnd;
         private int lineLength;
-        private bool firstInteration;
+        private bool firstIteration;
         private bool responseStarted;
 
         /// <summary>
-        /// Gets the OptionsGeneral property of the VisuallChatGPTStudioPackage.
+        /// Gets the OptionsGeneral property of the VisualChatGPTStudioPackage.
         /// </summary>
         protected OptionPageGridGeneral OptionsGeneral
         {
@@ -42,7 +42,7 @@ namespace JeffPires.VisualChatGPTStudio.Commands
         }
 
         /// <summary>
-        /// Gets the OptionsCommands property of the VisuallChatGPTStudioPackage.
+        /// Gets the OptionsCommands property of the VisualChatGPTStudioPackage.
         /// </summary>
         protected OptionPageGridCommands OptionsCommands
         {
@@ -86,7 +86,7 @@ namespace JeffPires.VisualChatGPTStudio.Commands
                     return;
                 }
 
-                firstInteration = true;
+                firstIteration = true;
                 responseStarted = false;
                 lineLength = 0;
 
@@ -178,7 +178,7 @@ namespace JeffPires.VisualChatGPTStudio.Commands
 
             try
             {
-                if (firstInteration)
+                if (firstIteration)
                 {
                     _ = VS.StatusBar.ShowProgressAsync(Constants.MESSAGE_RECEIVING_CHATGPT, 2, 2);
 
@@ -210,18 +210,21 @@ namespace JeffPires.VisualChatGPTStudio.Commands
                         position += 2;
                     }
 
-                    firstInteration = false;
+                    firstIteration = false;
                 }
 
                 string resultText = result.ToString();
 
                 if (OptionsGeneral.SingleResponse)
                 {
-                    //This code checks if the string "resultText" starts with "\r\n" and if it does, it removes from the string. 
-                    //It will continue to do this until the string no longer starts with "\r\n". 
-                    while (resultText.StartsWith("\r\n"))
+                    while (resultText.StartsWith(Environment.NewLine))
                     {
                         resultText = resultText.Substring(4);
+                    }
+
+                    while (resultText.StartsWith("\n"))
+                    {
+                        resultText = resultText.Substring(2);
                     }
                 }
                 else if (!responseStarted && (resultText.Equals("\n") || resultText.Equals("\r") || resultText.Equals(Environment.NewLine)))

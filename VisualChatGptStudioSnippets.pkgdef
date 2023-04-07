@@ -1,0 +1,11 @@
+﻿[$RootKey$\Languages\CodeExpansions\CSharp\Paths]
+"VisualChatGptStudio"="$PackageFolder$\Snippets\CSharp\VisualChatGptStudio"
+
+[$RootKey$\Languages\CodeExpansions\Basic\Paths]
+"VisualChatGptStudio"="$PackageFolder$\Snippets\Basic\VisualChatGptStudio"
+
+[$RootKey$\Languages\CodeExpansions\HTML\Paths]
+"VisualChatGptStudio"="$PackageFolder$\Snippets\HTML\VisualChatGptStudio"
+
+[$RootKey$\Languages\CodeExpansions\JavaScript\Paths]
+"VisualChatGptStudio"="$PackageFolder$\Snippets\JavaScript\VisualChatGptStudio"
