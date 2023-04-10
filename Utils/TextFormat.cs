@@ -13,11 +13,24 @@ namespace JeffPires.VisualChatGPTStudio.Utils
         /// for example for c#, for visual basic, for sql server, for java script
         /// or by default.
         /// </summary>
-        /// <param name="command">The command.</param>
-        /// <param name="selectedText">The selected text.</param>
+        /// <param name="command">The command.</param>        
         /// <param name="filePath">The file path.</param>
         /// <returns>A Formatted string</returns>
-        public static string FormatForCompleteCommand(string command, string selectedText, string filePath)
+        public static string FormatForCompleteCommand(string command, string filePath)
+        {
+            return FormatForCompleteCommand(command, filePath, null);
+        }
+
+        /// <summary>
+        /// Formats a given command for a given language 
+        /// for example for c#, for visual basic, for sql server, for java script
+        /// or by default.
+        /// </summary>
+        /// <param name="command">The command.</param>        
+        /// <param name="filePath">The file path.</param>
+        /// <param name="selectedText">The selected text.</param>
+        /// <returns>A Formatted string</returns>
+        public static string FormatForCompleteCommand(string command, string filePath, string selectedText)
         {
             string extension = System.IO.Path.GetExtension(filePath).TrimStart('.');
 
@@ -38,6 +51,15 @@ namespace JeffPires.VisualChatGPTStudio.Utils
             else if (extension == "js")
             {
                 language = "for Java Script";
+            }
+            else if (extension == "html")
+            {
+                language = "for HTML";
+            }
+
+            if (string.IsNullOrWhiteSpace(selectedText))
+            {
+                return $"{command} {language}";
             }
 
             return $"{command} {language}: {selectedText}";

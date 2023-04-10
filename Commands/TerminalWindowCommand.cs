@@ -79,8 +79,6 @@ namespace JeffPires.VisualChatGPTStudio.Commands
 
             OleMenuCommandService commandService = await package.GetServiceAsync((typeof(IMenuCommandService))) as OleMenuCommandService;
             Instance = new TerminalWindowCommand(package, commandService);
-
-            await InitializeToolWindowAsync(package);
         }
 
         /// <summary>
@@ -124,7 +122,7 @@ namespace JeffPires.VisualChatGPTStudio.Commands
                 throw new NotSupportedException("Cannot create tool window");
             }
 
-            window.SetTerminalWindowProperties(((VisuallChatGPTStudioPackage)package).OptionsGeneral, package);
+            window.SetTerminalWindowProperties(((VisualChatGPTStudioPackage)package).OptionsGeneral, package);
         }
     }
 }

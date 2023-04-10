@@ -72,7 +72,7 @@ namespace JeffPires.VisualChatGPTStudio.ToolWindows
 
                 txtResponse.Text = string.Empty;
 
-                await ChatGPT.RequestAsync(options, selection, ResultHandler);
+                await ChatGPT.RequestAsync(selection, ResultHandler);
             }
             catch (Exception ex)
             {
@@ -187,7 +187,7 @@ namespace JeffPires.VisualChatGPTStudio.ToolWindows
 
                 txtResponse.Text = string.Empty;
 
-                await ChatGPT.RequestAsync(options, command, ResultHandler);
+                await ChatGPT.RequestAsync(command, ResultHandler);
             }
             catch (Exception ex)
             {

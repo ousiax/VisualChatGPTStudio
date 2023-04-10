@@ -37,7 +37,7 @@ namespace JeffPires.VisualChatGPTStudio.Commands
         {
             get
             {
-                return ((VisuallChatGPTStudioPackage)this.Package).OptionsGeneral;
+                return ((VisualChatGPTStudioPackage)this.Package).OptionsGeneral;
             }
         }
 
@@ -48,7 +48,7 @@ namespace JeffPires.VisualChatGPTStudio.Commands
         {
             get
             {
-                return ((VisuallChatGPTStudioPackage)this.Package).OptionsCommands;
+                return ((VisualChatGPTStudioPackage)this.Package).OptionsCommands;
             }
         }
 
@@ -145,13 +145,13 @@ namespace JeffPires.VisualChatGPTStudio.Commands
 
             if (OptionsGeneral.SingleResponse)
             {
-                CompletionResult result = await ChatGPT.RequestAsync(OptionsGeneral, command);
+                CompletionResult result = await ChatGPT.RequestAsync(command);
 
                 ResultHandler(0, result);
             }
             else
             {
-                await ChatGPT.RequestAsync(OptionsGeneral, command, ResultHandler);
+                await ChatGPT.RequestAsync(command, ResultHandler);
             }
 
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();

@@ -1,8 +1,9 @@
 ﻿using Community.VisualStudio.Toolkit;
 using JeffPires.VisualChatGPTStudio.Commands;
 using JeffPires.VisualChatGPTStudio.Options;
-using JeffPires.VisualChatGPTStudio.Snippets;
 using JeffPires.VisualChatGPTStudio.ToolWindows;
+using JeffPires.VisualChatGPTStudio.Utils;
+using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Shell;
 using System;
 using System.Runtime.InteropServices;
@@ -21,7 +22,8 @@ namespace JeffPires.VisualChatGPTStudio
     [ProvideProfile(typeof(OptionPageGridCommands), "Visual chatGPT Studio", "Commands", 1, 1, true)]
     [ProvideToolWindow(typeof(TerminalWindow))]
     [ProvideToolWindow(typeof(TerminalWindowTurbo))]
-    public sealed class VisuallChatGPTStudioPackage : ToolkitPackage
+    [ProvideAutoLoad(VSConstants.UICONTEXT.SolutionExistsAndFullyLoaded_string, PackageAutoLoadFlags.BackgroundLoad)]
+    public sealed class VisualChatGPTStudioPackage : ToolkitPackage
     {
         /// <summary>
         /// Gets the OptionPageGridGeneral object.
@@ -51,10 +53,12 @@ namespace JeffPires.VisualChatGPTStudio
         protected override async Task InitializeAsync(CancellationToken cancellationToken, IProgress<ServiceProgressData> progress)
         {
             await JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
-            await this.RegisterCommandsAsync();
-            await TerminalWindowCommand.InitializeAsync(this);
-            await TerminalWindowTurboCommand.InitializeAsync(this);
-            await CompletionSnippet.Initialize(OptionsGeneral);
+
+            ChatGPT.Options = OptionsGeneral;
+
+            this.RegisterCommandsAsync();
+            TerminalWindowCommand.InitializeAsync(this);
+            TerminalWindowTurboCommand.InitializeAsync(this);
         }
     }
 }

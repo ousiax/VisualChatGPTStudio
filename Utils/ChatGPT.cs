@@ -13,47 +13,46 @@ namespace JeffPires.VisualChatGPTStudio.Utils
     /// </summary>
     static class ChatGPT
     {
+        public static OptionPageGridGeneral Options { get; set; }
+
         private static OpenAIAPI api;
 
         /// <summary>
         /// Requests a completion from the OpenAI API using the given options.
         /// </summary>
-        /// <param name="options">The options to use for the request.</param>
         /// <param name="request">The request to send to the API.</param>
         /// <returns>A task that represents the asynchronous operation.</returns>
-        public static async Task<CompletionResult> RequestAsync(OptionPageGridGeneral options, string request)
+        public static async Task<CompletionResult> RequestAsync(string request)
         {
-            CreateApiHandler(options.ApiKey);
+            CreateApiHandler();
 
-            return await api.Completions.CreateCompletionAsync(GetRequest(options, request));
+            return await api.Completions.CreateCompletionAsync(GetRequest(request));
         }
 
         /// <summary>
         /// Requests a completion from the OpenAI API using the given options.
         /// </summary>
-        /// <param name="options">The options to use for the request.</param>
         /// <param name="request">The request to send to the API.</param>
         /// <param name="resultHandler">The action to take when the result is received.</param>
         /// <returns>A task representing the completion request.</returns>
-        public static async Task RequestAsync(OptionPageGridGeneral options, string request, Action<int, CompletionResult> resultHandler)
+        public static async Task RequestAsync(string request, Action<int, CompletionResult> resultHandler)
         {
-            CreateApiHandler(options.ApiKey);
+            CreateApiHandler();
 
-            await api.Completions.StreamCompletionAsync(GetRequest(options, request), resultHandler);
+            await api.Completions.StreamCompletionAsync(GetRequest(request), resultHandler);
         }
 
         /// <summary>
         /// Creates a new conversation and appends a system message with the specified TurboChatBehavior.
         /// </summary>
-        /// <param name="options">The options to use for the conversation.</param>
         /// <returns>The newly created conversation.</returns>
-        public static Conversation CreateConversation(OptionPageGridGeneral options)
+        public static Conversation CreateConversation()
         {
-            CreateApiHandler(options.ApiKey);
+            CreateApiHandler();
 
             Conversation chat = api.Chat.CreateConversation();
 
-            chat.AppendSystemMessage(options.TurboChatBehavior);
+            chat.AppendSystemMessage(Options.TurboChatBehavior);
 
             return chat;
         }
@@ -61,41 +60,33 @@ namespace JeffPires.VisualChatGPTStudio.Utils
         /// <summary>
         /// Creates an API handler with the given API key.
         /// </summary>
-        /// <param name="apiKey">The API key to use.</param>
-        private static void CreateApiHandler(string apiKey)
+        private static void CreateApiHandler()
         {
+            if (Options == null)
+            {
+                return;
+            }
+
             if (api == null)
             {
-                api = new(apiKey);
+                api = new(Options.ApiKey);
             }
-            else if (api.Auth.ApiKey != apiKey)
+            else if (api.Auth.ApiKey != Options.ApiKey)
             {
-                api.Auth.ApiKey = apiKey;
+                api.Auth.ApiKey = Options.ApiKey;
             }
-        }
-
-        /// <summary>
-        /// Splits a string into an array of strings based on a comma delimiter.
-        /// </summary>
-        /// <param name="option">The string to be split.</param>
-        /// <returns>An array of strings.</returns>
-        private static string[] GetStopSequenceArray(string option)
-        {
-            string[] stopSequenceArray = option.Split(',');
-            return stopSequenceArray;
         }
 
         /// <summary>
         /// Gets a CompletionRequest object based on the given options and request.
         /// </summary>
-        /// <param name="options">The options to use for the request.</param>
         /// <param name="request">The request string.</param>
         /// <returns>A CompletionRequest object.</returns>
-        private static CompletionRequest GetRequest(OptionPageGridGeneral options, string request)
+        private static CompletionRequest GetRequest(string request)
         {
             Model model = Model.DavinciText;
 
-            switch (options.Model)
+            switch (Options.Model)
             {
                 case ModelLanguageEnum.TextCurie001:
                     model = Model.CurieText;
@@ -114,7 +105,7 @@ namespace JeffPires.VisualChatGPTStudio.Utils
                     break;
             }
 
-            return new(request, model, options.MaxTokens, options.Temperature, presencePenalty: options.PresencePenalty, frequencyPenalty: options.FrequencyPenalty, top_p: options.TopP, stopSequences: GetStopSequenceArray(options.StopSequences));
+            return new(request, model, Options.MaxTokens, Options.Temperature, presencePenalty: Options.PresencePenalty, frequencyPenalty: Options.FrequencyPenalty, top_p: Options.TopP, stopSequences: Options.StopSequences.Split(','));
         }
     }
 }
