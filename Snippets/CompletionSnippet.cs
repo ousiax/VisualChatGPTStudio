@@ -1,6 +1,5 @@
 ﻿using Community.VisualStudio.Toolkit;
 using EnvDTE;
-using JeffPires.VisualChatGPTStudio.Options;
 using JeffPires.VisualChatGPTStudio.Utils;
 using Microsoft.VisualStudio.Editor;
 using Microsoft.VisualStudio.Shell;
@@ -27,8 +26,10 @@ namespace JeffPires.VisualChatGPTStudio.Snippets
         [Import]
         internal IVsEditorAdaptersFactoryService AdapterService;
 
-        private readonly OptionPageGridGeneral options;
-
+        /// <summary>
+        /// Handles the creation of a new text view and subscribes to the TextBuffer.Changed event and the DocumentEvents.AfterDocumentWindowHide event.
+        /// </summary>
+        /// <param name="textViewAdapter">The IVsTextView of the new text view.</param>
         public void VsTextViewCreated(IVsTextView textViewAdapter)
         {
             IWpfTextView textView = AdapterService?.GetWpfTextView(textViewAdapter);

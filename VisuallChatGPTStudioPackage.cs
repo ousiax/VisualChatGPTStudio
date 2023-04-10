@@ -48,8 +48,10 @@ namespace JeffPires.VisualChatGPTStudio
         }
 
         /// <summary>
-        /// Initializes the terminal window commands.
+        /// Initializes the ChatGPT service with the given options and registers the commands.
         /// </summary>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <param name="progress">The progress.</param>
         protected override async Task InitializeAsync(CancellationToken cancellationToken, IProgress<ServiceProgressData> progress)
         {
             await JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);

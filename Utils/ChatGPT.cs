@@ -13,6 +13,9 @@ namespace JeffPires.VisualChatGPTStudio.Utils
     /// </summary>
     static class ChatGPT
     {
+        /// <summary>
+        /// Gets or sets the Options property which is of type OptionPageGridGeneral.
+        /// </summary>
         public static OptionPageGridGeneral Options { get; set; }
 
         private static OpenAIAPI api;
@@ -21,7 +24,7 @@ namespace JeffPires.VisualChatGPTStudio.Utils
         /// Requests a completion from the OpenAI API using the given options.
         /// </summary>
         /// <param name="request">The request to send to the API.</param>
-        /// <returns>A task that represents the asynchronous operation.</returns>
+        /// <returns>The completion result.</returns>
         public static async Task<CompletionResult> RequestAsync(string request)
         {
             CreateApiHandler();
@@ -33,13 +36,39 @@ namespace JeffPires.VisualChatGPTStudio.Utils
         /// Requests a completion from the OpenAI API using the given options.
         /// </summary>
         /// <param name="request">The request to send to the API.</param>
+        /// <param name="stopSequences">Up to 4 sequences where the API will stop generating further tokens.</param>
+        /// <returns>The completion result.</returns>
+        public static async Task<CompletionResult> RequestAsync(string request, string[] stopSequences)
+        {
+            CreateApiHandler();
+
+            return await api.Completions.CreateCompletionAsync(GetRequest(request, stopSequences));
+        }
+
+        /// <summary>
+        /// Requests a completion from the OpenAI API using the given options.
+        /// </summary>
+        /// <param name="options">The options to use for the request.</param>
+        /// <param name="request">The request to send to the API.</param>
         /// <param name="resultHandler">The action to take when the result is received.</param>
-        /// <returns>A task representing the completion request.</returns>
         public static async Task RequestAsync(string request, Action<int, CompletionResult> resultHandler)
         {
             CreateApiHandler();
 
             await api.Completions.StreamCompletionAsync(GetRequest(request), resultHandler);
+        }
+
+        /// <summary>
+        /// Requests a completion from the OpenAI API using the given options.
+        /// </summary>
+        /// <param name="request">The request to send to the API.</param>
+        /// <param name="resultHandler">The action to take when the result is received.</param>
+        /// <param name="stopSequences">Up to 4 sequences where the API will stop generating further tokens.</param>
+        public static async Task RequestAsync(string request, Action<int, CompletionResult> resultHandler, string[] stopSequences)
+        {
+            CreateApiHandler();
+
+            await api.Completions.StreamCompletionAsync(GetRequest(request, stopSequences), resultHandler);
         }
 
         /// <summary>
@@ -84,6 +113,17 @@ namespace JeffPires.VisualChatGPTStudio.Utils
         /// <returns>A CompletionRequest object.</returns>
         private static CompletionRequest GetRequest(string request)
         {
+            return GetRequest(request, null);
+        }
+
+        /// <summary>
+        /// Gets a CompletionRequest object based on the given options and request.
+        /// </summary>
+        /// <param name="request">The request string.</param>
+        /// <param name="stopSequences">Up to 4 sequences where the API will stop generating further tokens.</param>
+        /// <returns>A CompletionRequest object.</returns>
+        private static CompletionRequest GetRequest(string request, string[] stopSequences)
+        {
             Model model = Model.DavinciText;
 
             switch (Options.Model)
@@ -105,7 +145,12 @@ namespace JeffPires.VisualChatGPTStudio.Utils
                     break;
             }
 
-            return new(request, model, Options.MaxTokens, Options.Temperature, presencePenalty: Options.PresencePenalty, frequencyPenalty: Options.FrequencyPenalty, top_p: Options.TopP, stopSequences: Options.StopSequences.Split(','));
+            if (stopSequences == null || stopSequences.Length == 0)
+            {
+                stopSequences = Options.StopSequences.Split(',');
+            }
+
+            return new(request, model, Options.MaxTokens, Options.Temperature, presencePenalty: Options.PresencePenalty, frequencyPenalty: Options.FrequencyPenalty, top_p: Options.TopP, stopSequences: stopSequences);
         }
     }
 }

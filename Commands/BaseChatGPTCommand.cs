@@ -143,15 +143,22 @@ namespace JeffPires.VisualChatGPTStudio.Commands
 
             await VS.StatusBar.ShowProgressAsync(Constants.MESSAGE_WAITING_CHATGPT, 1, 2);
 
+            string[] stopSequences = null;
+
+            if (typeof(TCommand) == typeof(AddSummary))
+            {
+                stopSequences = new[] { "public", "private", "internal" };
+            }
+
             if (OptionsGeneral.SingleResponse)
             {
-                CompletionResult result = await ChatGPT.RequestAsync(command);
+                CompletionResult result = await ChatGPT.RequestAsync(command, stopSequences);
 
                 ResultHandler(0, result);
             }
             else
             {
-                await ChatGPT.RequestAsync(command, ResultHandler);
+                await ChatGPT.RequestAsync(command, ResultHandler, stopSequences);
             }
 
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
