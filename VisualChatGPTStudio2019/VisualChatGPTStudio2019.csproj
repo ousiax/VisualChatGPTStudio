@@ -65,6 +65,8 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>VSCommandTable.vsct</DependentUpon>
     </Compile>
+    <Compile Include="TextAdornment1.cs" />
+    <Compile Include="TextAdornment1TextViewCreationListener.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\README.md">
@@ -82,6 +84,7 @@
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Design" />
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Drawing" />

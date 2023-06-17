@@ -143,13 +143,13 @@ namespace JeffPires.VisualChatGPTStudio.Commands
 
             if (OptionsGeneral.SingleResponse)
             {
-                CompletionResult result = await ChatGPT.RequestAsync(OptionsGeneral, command, stopSequences);
+                CompletionResult result = await ChatGPT.RequestAsync(command, stopSequences);
 
                 ResultHandler(0, result);
             }
             else
             {
-                await ChatGPT.RequestAsync(OptionsGeneral, command, ResultHandler, stopSequences);
+                await ChatGPT.RequestAsync(command, ResultHandler, stopSequences);
             }
 
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();

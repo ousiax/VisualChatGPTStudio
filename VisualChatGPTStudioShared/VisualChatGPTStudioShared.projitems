@@ -9,6 +9,7 @@
     <Import_RootNamespace>VisualChatGPTStudioShared</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Copilot\CopilotAdornment.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Commands\AddComments.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Commands\AddSummary.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Commands\AddTests.cs" />
@@ -23,6 +24,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Commands\Optimize.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Commands\TerminalWindowCommand.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Commands\TerminalWindowTurboCommand.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Copilot\CopilotAdornmentTextViewCreationListener.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Options\OptionPageGrid.cs">
       <SubType>Component</SubType>
     </Compile>
